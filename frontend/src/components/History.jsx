@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Download, Calendar, ArrowRight, Eye, RefreshCw, Archive, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { getApiUrl } from '../config';
 
 const History = ({ setActiveTab }) => {
   const { authenticatedFetch } = useAuth();
@@ -99,7 +100,7 @@ const History = ({ setActiveTab }) => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="h-12 w-12 rounded-xl overflow-hidden border border-gray-100 bg-gray-50 flex items-center justify-center">
                           <img 
-                            src={rec.image_url} 
+                            src={getApiUrl(rec.image_url)} 
                             alt="Specimen" 
                             className="h-full w-full object-cover"
                             onError={(e) => {
@@ -134,7 +135,7 @@ const History = ({ setActiveTab }) => {
                           <Eye className="h-4 w-4" />
                         </button>
                         <a
-                          href={`/api/report/${rec.id}`}
+                          href={getApiUrl(`/api/report/${rec.id}`)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center p-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl transition-colors cursor-pointer"
@@ -178,7 +179,7 @@ const History = ({ setActiveTab }) => {
               {/* Crop Specimen Image */}
               <div className="rounded-2xl overflow-hidden border border-gray-200 h-44 mb-6 flex items-center justify-center bg-gray-50 shadow-2xs">
                 <img 
-                  src={selectedRecord.image_url} 
+                  src={getApiUrl(selectedRecord.image_url)} 
                   alt="Specimen" 
                   className="max-h-full max-w-full object-contain"
                 />
@@ -204,11 +205,12 @@ const History = ({ setActiveTab }) => {
 
               {/* PDF Action */}
               <a
-                href={`/api/report/${selectedRecord.id}`}
+                href={getApiUrl(`/api/report/${selectedRecord.id}`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-3.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-2xl text-sm flex items-center justify-center space-x-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
               >
+
                 <Download className="h-4.5 w-4.5" />
                 <span>Get PDF Certificate</span>
               </a>

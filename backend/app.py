@@ -1,4 +1,5 @@
 import os
+import sys
 import datetime
 import jwt
 from functools import wraps
@@ -7,17 +8,35 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
-from backend.database import (
-    init_db, register_user, get_user_by_email, get_user_by_id,
-    save_prediction, get_predictions, get_prediction_by_id, get_predictions_statistics
-)
-from backend.model_utils import get_prediction
-from backend.pdf_generator import generate_pdf_report
+# Ensure current and parent directory are on sys.path for versatile running
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
+try:
+    from backend.database import (
+        init_db, register_user, get_user_by_email, get_user_by_id,
+        save_prediction, get_predictions, get_prediction_by_id, get_predictions_statistics
+    )
+    from backend.model_utils import get_prediction
+    from backend.pdf_generator import generate_pdf_report
+except ImportError:
+    from database import (
+        init_db, register_user, get_user_by_email, get_user_by_id,
+        save_prediction, get_predictions, get_prediction_by_id, get_predictions_statistics
+    )
+    from model_utils import get_prediction
+    from pdf_generator import generate_pdf_report
 
 app = Flask(__name__)
-CORS(app) # Allow frontend to communicate with API endpoints
+# Enable CORS for all routes (allows Vercel frontend to query Render backend)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'agri_guard_super_secret_key_2026')
+
 app.config['UPLOAD_FOLDER'] = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
     'uploads'
@@ -243,4 +262,5 @@ def serve_upload(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)

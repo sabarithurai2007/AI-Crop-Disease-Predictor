@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { UploadCloud, FileText, AlertTriangle, CheckCircle, RefreshCw, Download, HelpCircle, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { getApiUrl } from '../config';
 
 const Predictor = () => {
   const { token } = useAuth();
@@ -66,7 +67,7 @@ const Predictor = () => {
     formData.append('image', file);
 
     try {
-      const response = await fetch('/api/predict', {
+      const response = await fetch(getApiUrl('/api/predict'), {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -330,11 +331,12 @@ const Predictor = () => {
                 </span>
                 
                 <a
-                  href={`/api/report/${result.id}`}
+                  href={getApiUrl(`/api/report/${result.id}`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-1 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer hover:shadow-sm"
                 >
+
                   <Download className="h-3.5 w-3.5" />
                   <span>Download PDF Report</span>
                 </a>
