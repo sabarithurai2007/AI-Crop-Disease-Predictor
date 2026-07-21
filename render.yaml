@@ -1,12 +1,7 @@
 services:
   - type: web
-    name: agriguard-backend
+    name: AI-Crop-Disease-Predictor
     env: python
     rootDir: backend
-    buildCommand: ./build.sh
+    buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
-    envVars:
-      - key: SECRET_KEY
-        generateValue: true
-      - key: PYTHON_VERSION
-        value: 3.10.12
