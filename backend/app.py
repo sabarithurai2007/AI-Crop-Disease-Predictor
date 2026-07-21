@@ -46,7 +46,10 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 # Ensure upload and template directories exist
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-templates_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+root_dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+root_templates = os.path.join(root_dir_path, 'templates')
+backend_templates = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+templates_folder = root_templates if os.path.exists(os.path.join(root_templates, 'index.html')) else backend_templates
 os.makedirs(templates_folder, exist_ok=True)
 
 # Initialize database tables
@@ -56,6 +59,7 @@ with app.app_context():
 @app.route('/')
 def serve_home():
     return send_from_directory(templates_folder, 'index.html')
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
