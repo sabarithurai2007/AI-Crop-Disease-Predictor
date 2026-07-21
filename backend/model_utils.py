@@ -1,7 +1,10 @@
 import os
 import numpy as np
-from PIL import Image
-from backend.disease_data import DISEASE_CLASSES, get_disease_info
+try:
+    from backend.disease_data import DISEASE_CLASSES, get_disease_info
+except ImportError:
+    from disease_data import DISEASE_CLASSES, get_disease_info
+
 
 # Global flags
 HAS_TF = False
