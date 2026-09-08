@@ -70,8 +70,7 @@ crop-disease-predictor/
    ```bash
    py app.py
    ```
-   *(Starts API on [http://127.0.0.1:5000](http://127.0.0.1:5000) and prints whether MySQL or SQLite fallback is active).*
-
+  
 ---
 
 ## 2. Frontend Setup (React + Vite)
