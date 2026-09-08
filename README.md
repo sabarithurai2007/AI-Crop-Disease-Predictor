@@ -116,3 +116,9 @@ If you are using **MySQL**, create a database named `crop_disease_db` on your lo
   * `created_at` (TIMESTAMP)
 
 *If MySQL fails to connect, the application creates a `crop_disease.db` SQLite database with the exact same columns and indexes.*
+
+
+
+DEPLOYMENT LINK
+
+https://ai-crop-disease-predictor-6.onrender.com
